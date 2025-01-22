@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { posts } from "@/data/posts";
-import Image from "next/image";
+import { getPosts } from "@/lib/posts";
 
-export default function Home() {
+export default async function Home() {
+  const posts = await getPosts();
+  
   return (
     <>
       <section className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-16">

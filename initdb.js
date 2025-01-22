@@ -59,7 +59,7 @@ db.prepare(`
 
 async function initData() {
   const stmt = db.prepare(`
-      INSERT INTO meals VALUES (
+      INSERT INTO posts VALUES (
          null,
          @slug,
          @title,
