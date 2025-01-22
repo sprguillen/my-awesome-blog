@@ -1,5 +1,8 @@
 const sql = require('better-sqlite3');
+const bcrypt = require('bcrypt');
 const db = sql('blog.db');
+
+const saltRounds = 10;
 
 const dummyPosts = [
   {
@@ -31,7 +34,7 @@ const dummyUsers = [
     name: "Simon Admin",
     username: "admin",
     email: "simon.admin@gmail.com",
-    password: "Test@123",
+    password: bcrypt.hashSync("Test@123", saltRounds),
   }
 ];
 

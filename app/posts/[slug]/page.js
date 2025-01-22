@@ -1,8 +1,9 @@
 import { notFound } from "next/navigation";
-import { posts } from "@/data/posts";
+import { getPosts } from "@/lib/posts";
 
-export default function PostDetail({ params }) {
+export default async function PostDetail({ params }) {
   const { slug } = params;
+  const posts = await getPosts();
   const post = posts.find((p) => p.slug === slug);
 
   if (!post) {
