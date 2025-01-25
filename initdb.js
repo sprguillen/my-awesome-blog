@@ -60,43 +60,60 @@ db.prepare(`
   )
 `).run();
 
+db.exec(`CREATE TABLE IF NOT EXISTS sessions (
+  id TEXT NOT NULL PRIMARY KEY,
+  expires_at INTEGER NOT NULL,
+  user_id TEXT NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id)
+)`);
+
 async function initData() {
-  const stmt = db.prepare(`
+  const hasPosts = db.prepare('SELECT COUNT(*) as count FROM posts').get().count > 0;
+  
+  if (!hasPosts) {
+    const stmt = db.prepare(`
       INSERT INTO posts VALUES (
-         null,
-         @slug,
-         @title,
-         @excerpt,
-         @content,
-         @author,
-         @published_date
+        null,
+        @slug,
+        @title,
+        @excerpt,
+        @content,
+        @author,
+        @published_date
       )
    `);
 
-  for (const meal of dummyPosts) {
-    stmt.run(meal);
+    for (const meal of dummyPosts) {
+      stmt.run(meal);
+    }
   }
 
-  const userStmt = db.prepare(`
-    INSERT INTO users (
-      id,
-      name,
-      username,
-      email,
-      password
-    )
-    VALUES (
-      @id,
-      @name,
-      @username,
-      @email,
-      @password
-    )
-  `);
+  const hasUsers = db.prepare('SELECT COUNT(*) as count FROM users').get().count > 0;
 
-  for (const user of dummyUsers) {
-    userStmt.run(user);
+  if (!hasUsers) {
+    const userStmt = db.prepare(`
+      INSERT INTO users (
+        id,
+        name,
+        username,
+        email,
+        password
+      )
+      VALUES (
+        @id,
+        @name,
+        @username,
+        @email,
+        @password
+      )
+    `);
+  
+    for (const user of dummyUsers) {
+      userStmt.run(user);
+    }
   }
 }
 
 initData();
+
+export default db;

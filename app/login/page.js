@@ -1,54 +1,23 @@
 "use client";
-
-import { useState } from "react";
-import { useRouter } from "next/router";
+import { useActionState } from "react";
+import { signin } from "../actions/auth-actions";
 
 export default function LoginPage() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError("");
-
-    try {
-      const res = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
-
-      if (!res.ok) {
-        throw new Error("Invalid credentials");
-      }
-
-      router.push("/dashboard");
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const [formState, formAction] = useActionState(signin, {});
 
   return (
     <div className="max-w-md mx-auto bg-white mt-16 p-8 rounded shadow">
       <h2 className="text-2xl font-semibold mb-6">Login</h2>
-      <form onSubmit={handleLogin} className="space-y-4">
+      <form action={formAction} className="space-y-4">
         <div>
           <label htmlFor="username" className="block font-medium text-gray-700">
             Username
           </label>
           <input
             id="username"
+            name="username"
             type="text"
             className="w-full border border-gray-300 rounded p-2"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
           />
         </div>
 
@@ -58,18 +27,18 @@ export default function LoginPage() {
           </label>
           <input
             id="password"
+            name="password"
             type="password"
             className="w-full border border-gray-300 rounded p-2"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
           />
         </div>
 
-        {error && (
-          <p className="text-red-600 text-sm">
-            {error}
-          </p>
+        {formState.errors && (
+          <ul className="text-sm">
+            {Object.keys(formState.errors).map((error) => (
+              <li key={error} className="text-red-500">{formState.errors[error]}</li>
+            ))}
+          </ul>
         )}
 
         <button
