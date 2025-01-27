@@ -16,21 +16,25 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+This project is a test submission for Simon Phillip Guillen's job application at Elio Systems. This simple blog is written in NextJS (a ReactJS-based framework that utilizes Server-side Rendering).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Techstack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- NextJS
+- ReactJS
+- SQLite 3 (Basic database to store users, and posts)
+- React's Context API (basic state management)
+- Lucia (authentication handling)
+- Tailwind CSS (CSS framework for designing)
+- React Simple WYSIWYG
 
-## Deploy on Vercel
+## Design decisions and challenges
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+With the latest version of NextJS, not just the App-based routing but also the ability to define and play around with the ability to use server-side and client-side components have presented some challenges to me.
+As you notice, most of my form submissions utilized React's `useActionState` which handled the form submission and therefore submitted code directly to the NextJS server-side component without having to call the API
+is not consistent with the way I used fetch API to get data from my AuthProvider which I needed to get the user data based from the current session. I had to play around because NextJS's full-stack ability
+gave me different options on how to add and fetch data. Though my implementation worked I would have loved it if my form submission was implemented the same way as I did to my Auth providers for consistency purposes.
