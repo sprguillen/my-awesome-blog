@@ -1,7 +1,7 @@
 "use server";
-
+import { redirect } from "next/navigation";
 import { compareSync } from "bcrypt";
-import { createAuthSession } from "@/lib/auth";
+import { createAuthSession, destroySession } from "@/lib/auth";
 import db from '@/initdb';
 
 export async function signin(prevState, formData) {
@@ -33,4 +33,9 @@ export async function signin(prevState, formData) {
   } catch (error) {
     throw error;
   }
+}
+
+export async function logout() {
+  await destroySession();
+  redirect("/");
 }

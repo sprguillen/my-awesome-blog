@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useContext, useState } from "react";
 import { AuthContext } from "@/context/AuthProvider";
+import { logout } from "@/app/actions/auth-actions";
 import { Menu, X } from "lucide-react"; // Import Lucide icons
 
 export default function Navbar() {
@@ -27,9 +28,11 @@ export default function Navbar() {
               <Link href="/posts/create" className="hover:underline">
                 Create Post
               </Link>
-              <Link href="/logout" className="hover:underline">
-                Logout
-              </Link>
+              <form action={logout}>
+                <button type="submit" className="hover:underline">
+                  Logout
+                </button>
+              </form>
             </>
           ) : (
             <Link href="/login" className="hover:underline">
