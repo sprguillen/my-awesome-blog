@@ -2,17 +2,8 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+First, run `node initdb.js` to set up the dummy database with an admin user (since I don't have a create user functionality here).
+Finally, run the app by running `npm run dev`.
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
@@ -37,4 +28,4 @@ This project is a test submission for Simon Phillip Guillen's job application at
 With the latest version of NextJS, not just the App-based routing but also the ability to define and play around with the ability to use server-side and client-side components have presented some challenges to me.
 As you notice, most of my form submissions utilized React's `useActionState` which handled the form submission and therefore submitted code directly to the NextJS server-side component without having to call the API
 is not consistent with the way I used fetch API to get data from my AuthProvider which I needed to get the user data based from the current session. I had to play around because NextJS's full-stack ability
-gave me different options on how to add and fetch data. Though my implementation worked I would have loved it if my form submission was implemented the same way as I did to my Auth providers for consistency purposes.
+gave me different options for adding and fetching data. Though my implementation worked I would have loved it if my form submission was implemented the same way I did to my Auth providers for consistency purposes.
