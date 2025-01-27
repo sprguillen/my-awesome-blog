@@ -1,10 +1,10 @@
-import DOMPurify from "dompurify";
+"use server";
 import db from '@/initdb';
+import { slugify } from '@/utils';
 
 export async function createPost(prevState, formData) {
   try {
     const title = formData.get("title");
-    const slug = formData.get("slug");
     const excerpt = formData.get("excerpt");
     const content = formData.get("content");
     const author = formData.get("author");
@@ -15,9 +15,7 @@ export async function createPost(prevState, formData) {
       errors.title = "Please enter a title.";
     }
 
-    if (!slug) {
-      errors.slug = "Please enter a slug.";
-    }
+    const slug = slugify(title);
 
     const hasSlug = db.prepare('SELECT COUNT(*) as count FROM posts WHERE slug = ?').get(slug).count > 0;
 
@@ -52,7 +50,7 @@ export async function createPost(prevState, formData) {
         excerpt,
         content,
         author,
-        published_date,
+        published_date
       )
       VALUES (
         @title,
@@ -64,12 +62,11 @@ export async function createPost(prevState, formData) {
       )
     `);
 
-    const sanitizedContent = DOMPurify.sanitize(content);
     const result = stmt.run({
       title,
       slug,
       excerpt,
-      content: sanitizedContent,
+      content,
       author,
       publishedDate,
     });

@@ -4,7 +4,7 @@ import { signin } from "@/app/actions/auth-actions";
 import Loader from "@/components/loader";
 
 export default function LoginPage() {
-  const [formState, formAction] = useActionState(signin, {});
+  const [formState, formAction, isPending] = useActionState(signin, {});
 
   return (
     <div className="max-w-md mx-auto bg-white mt-16 p-8 rounded shadow">
@@ -44,10 +44,10 @@ export default function LoginPage() {
 
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          disabled={formState.isSubmitting}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex"
+          disabled={isPending}
         >
-          {formState.isSubmitting ? (
+          {isPending ? (
             <>
               <Loader />
               <span className="ml-2">Signing In...</span>

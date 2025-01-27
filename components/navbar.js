@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 
 export default function Navbar() {
@@ -11,8 +12,8 @@ export default function Navbar() {
           <Link href="/" className="mr-4 hover:underline">
             Home
           </Link>
-          <Link href="/admin" className="hover:underline">
-            Admin
+          <Link href="/posts/create" className="hover:underline">
+            Create Post
           </Link>
         </div>
       </div>

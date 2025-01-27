@@ -30,7 +30,7 @@ export async function signin(prevState, formData) {
     }
   
     await createAuthSession(user.id);
-    redirect("/");;
+    redirect("/");
   } catch (error) {
     throw error;
   }
