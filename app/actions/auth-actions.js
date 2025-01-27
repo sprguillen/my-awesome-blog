@@ -1,6 +1,5 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { compareSync } from "bcrypt";
 import { createAuthSession } from "@/lib/auth";
 import db from '@/initdb';
@@ -30,7 +29,7 @@ export async function signin(prevState, formData) {
     }
   
     await createAuthSession(user.id);
-    redirect("/");
+    return { success: true };
   } catch (error) {
     throw error;
   }

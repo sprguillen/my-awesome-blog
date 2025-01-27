@@ -1,10 +1,20 @@
 "use client";
-import { useActionState } from "react";
+import { redirect } from "next/navigation";
+import { useActionState, useContext, useEffect } from "react";
 import { signin } from "@/app/actions/auth-actions";
+import { AuthContext } from "@/context/AuthProvider"; 
 import Loader from "@/components/loader";
 
 export default function LoginPage() {
   const [formState, formAction, isPending] = useActionState(signin, {});
+  const { refreshSession } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (formState.success) {
+      refreshSession();
+      redirect("/");
+    }
+  }, [formState.success]);
 
   return (
     <div className="max-w-md mx-auto bg-white mt-16 p-8 rounded shadow">
