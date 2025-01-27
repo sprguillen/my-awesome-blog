@@ -22,6 +22,11 @@ export default function PostForm({ existingPost = {}, editMode = false }) {
     }
   }, [existingPost])
 
+  /**
+   * Sanitize the content before submitting the form to prevent XSS attacks
+   * We use the hidden value content to submit to the backend, and not the actual data from the editor because we are using the useActionState
+   * instead of passing the form data via useState and onSubmit
+   */
   useEffect(() => {
     setSerializedContent(DOMPurify.sanitize(content));
   }, [content]);

@@ -4,6 +4,10 @@ import { compareSync } from "bcrypt";
 import { createAuthSession, destroySession } from "@/lib/auth";
 import db from '@/initdb';
 
+/**
+ * Handle signin from the useActionState hook
+ * Compare password using bcrypt's compareSync function
+ */
 export async function signin(prevState, formData) {
   try {
     const username = formData.get("username");
