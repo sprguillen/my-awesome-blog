@@ -3,11 +3,12 @@
 import { useActionState, useState, useEffect } from "react";
 import Editor from "react-simple-wysiwyg";
 import DOMPurify from "dompurify";
-import { createPost } from "@/app/actions/post-actions";
+import { createPost, editPost } from "@/app/actions/post-actions";
 import Loader from "@/components/loader";
 
-export default function AdminForm() {
-  const [formState, formAction, isPending] = useActionState(createPost, {});
+export default function PostForm({ existingPost = {}, editMode = false }) {
+  const [formState, formAction, isPending] =
+    useActionState(editMode ? editPost : createPost, {});
   const [content, setContent] = useState('');
   const [serializedContent, setSerializedContent] = useState("");
 
@@ -16,12 +17,23 @@ export default function AdminForm() {
   };
 
   useEffect(() => {
+    if (existingPost && existingPost?.content) {
+      setContent(existingPost.content);
+    }
+  }, [existingPost])
+
+  useEffect(() => {
     setSerializedContent(DOMPurify.sanitize(content));
   }, [content]);
+
+  console.log(existingPost);
 
   return (
     <form action={formAction} className="space-y-4">
       <div>
+        {editMode && (
+          <input type="hidden" name="id" value={existingPost.id} />
+        )}
         <label htmlFor="title" className="block font-medium text-gray-700">
           Title
         </label>
@@ -30,6 +42,7 @@ export default function AdminForm() {
           name="title"
           type="text"
           className="w-full border border-gray-300 rounded p-2"
+          defaultValue={editMode ? existingPost.title : ''}
           required
         />
       </div>
@@ -42,6 +55,7 @@ export default function AdminForm() {
           name="excerpt"
           type="text"
           className="w-full border border-gray-300 rounded p-2"
+          defaultValue={editMode ? existingPost.excerpt : ''}
           required
         />
       </div>
@@ -61,6 +75,7 @@ export default function AdminForm() {
           name="author"
           type="text"
           className="w-full border border-gray-300 rounded p-2"
+          defaultValue={editMode ? existingPost.author : ''}
           required
         />
       </div>
@@ -73,6 +88,7 @@ export default function AdminForm() {
           name="publishedDate"
           type="date"
           className="w-full border border-gray-300 rounded p-2"
+          defaultValue={editMode ? existingPost.published_date : ''}
           required
         />
       </div>
@@ -94,7 +110,7 @@ export default function AdminForm() {
             <span className="ml-2">Processing...</span>
           </>
         ) : (
-          "Create Post"
+          editMode ? "Update Post" : "Create Post"
         )}
       </button>
     </form>

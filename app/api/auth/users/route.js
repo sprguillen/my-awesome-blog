@@ -1,11 +1,9 @@
 import { NextResponse } from "next/server";
-import { verifyAuthSession } from "@/lib/auth";
+import { getCurrentLoggedInUser } from "@/lib/users";
 
 export async function GET(request) {
   try {
-    const auth = await verifyAuthSession();
-    const { user } = auth;
-
+    const user = await getCurrentLoggedInUser();
     if (user) {
       return NextResponse.json({ user }, { status: 200 });
     } else {
