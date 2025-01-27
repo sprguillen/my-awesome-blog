@@ -13,6 +13,8 @@ export default async function PostDetail({ params }) {
   }
 
   return (
-    <Post post={post} />
+    <div className="px-4">
+      <Post post={post} />
+    </div>
   );
 }

@@ -26,8 +26,6 @@ export default function PostForm({ existingPost = {}, editMode = false }) {
     setSerializedContent(DOMPurify.sanitize(content));
   }, [content]);
 
-  console.log(existingPost);
-
   return (
     <form action={formAction} className="space-y-4">
       <div>
